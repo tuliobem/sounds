@@ -2,29 +2,41 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Som do Mario</title>
+  <title>Bandeira do Mario</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes subir {
+      0% {
+        bottom: 0;
+      }
+      100% {
+        bottom: 85%;
+      }
+    }
+
+    .animar-bandeira {
+      animation: subir 1.8s ease-out forwards;
+    }
+  </style>
   <script>
     window.addEventListener('load', () => {
       const audio = document.getElementById('audio');
-      audio.play().catch(() => {
-        // Navegador bloqueou o autoplay. O botão continuará disponível.
-      });
+      audio.play().catch(() => {});
+      document.getElementById('bandeira').classList.add('animar-bandeira');
     });
   </script>
 </head>
 
-<body class="bg-transparent flex items-center justify-center h-screen flex-col gap-6">
-  <h1 class="text-2xl font-bold text-gray-800">seja Bem-vindo! 🎵</h1>
-  <p class="text-gray-600 text-center max-w-md">Se o som não tocar automaticamente, clique no botão abaixo:</p>
+<body class="bg-transparent m-0 p-0 overflow-hidden">
+  <!-- Bandeira -->
+  <div class="fixed right-4 bottom-0 w-20 h-96 flex items-end justify-center">
+    <img id="bandeira" src="https://static.wikia.nocookie.net/mario/images/b/b9/Goal_Pole_-_New_Super_Mario_Bros._U.png"
+         alt="Bandeira Mario"
+         class="w-16 absolute"
+         style="bottom: 0;">
+  </div>
 
-  <button 
-    onclick="document.getElementById('audio').play()"
-    class="bg-red-500 text-white px-6 py-3 rounded-full shadow-lg hover:bg-red-600 transition duration-200 text-lg"
-  >
-    ▶️ Tocar Som
-  </button>
-
+  <!-- Áudio -->
   <audio id="audio" autoplay>
     <source src="https://handebol.s3.sa-east-1.amazonaws.com/SoundEffects/Sonido+banderita+mario+bros.mp3" type="audio/mpeg">
     Seu navegador não suporta áudio HTML5.
