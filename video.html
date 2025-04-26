@@ -2,32 +2,70 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Vídeo YouTube</title>
+  <title>Inserir Vídeo do YouTube</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     html, body {
       margin: 0;
       padding: 0;
       background: transparent;
-      overflow: hidden;
       height: 100%;
       width: 100%;
+      overflow: hidden;
     }
   </style>
 </head>
 
-<body class="bg-transparent flex items-center justify-center">
-  <div class="w-full h-full flex items-center justify-center">
+<body class="bg-transparent flex flex-col items-center justify-center h-screen gap-6">
+
+  <div class="w-full max-w-md flex flex-col items-center gap-4">
+    <input
+      id="videoUrl"
+      type="text"
+      placeholder="Cole a URL do YouTube aqui"
+      class="w-full p-3 border border-gray-300 rounded-md shadow"
+    >
+    <button
+      onclick="loadVideo()"
+      class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+    >
+      Carregar Vídeo
+    </button>
+  </div>
+
+  <div id="videoContainer" class="mt-6 hidden">
     <iframe
+      id="youtubePlayer"
       width="560"
       height="315"
-      src="https://www.youtube.com/live/sVHoufTzJ7Y?si=Q8MY-yLnA9_pReym"
-      title="YouTube video"
       frameborder="0"
       allow="autoplay; encrypted-media"
       allowfullscreen
       class="rounded-xl shadow-xl"
     ></iframe>
   </div>
+
+  <script>
+    function extractVideoId(url) {
+      const regex = /(?:youtube\.com.*(?:v=|\/embed\/)|youtu\.be\/)([^"&?/ ]{11})/;
+      const match = url.match(regex);
+      return match ? match[1] : null;
+    }
+
+    function loadVideo() {
+      const url = document.getElementById('videoUrl').value;
+      const videoId = extractVideoId(url);
+
+      if (videoId) {
+        const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&rel=0`;
+        const iframe = document.getElementById('youtubePlayer');
+        iframe.src = embedUrl;
+        document.getElementById('videoContainer').classList.remove('hidden');
+      } else {
+        alert('URL inválida. Cole o link completo de um vídeo do YouTube.');
+      }
+    }
+  </script>
+
 </body>
 </html>
